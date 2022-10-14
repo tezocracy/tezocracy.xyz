@@ -22,7 +22,7 @@ function Header() {
                                 <Badge bg="secondary">{Config.network.networkType}</Badge>
                             </>
                         }
-
+                        <p>A tool for Tezos Bakers to vote for Governance Proposals, directly from the Browser!</p>
                     </Navbar.Brand>
                 </Nav>
                 <Nav>
