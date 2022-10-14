@@ -17,7 +17,7 @@ networks.set('ghostnet', {
 let Config = {
     application: {
         name: "Tezocracy.xyz",
-        githubRepository: "https://github.com/avysel/tezocracy"
+        githubRepository: "https://github.com/tezocracy/tezocracy.xyz"
     },
     network: networks.get('mainnet')
 }
