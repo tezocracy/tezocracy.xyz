@@ -5,8 +5,10 @@ import Constants from "../../Constants";
 import Ballot from "./ballot/Ballot";
 import Wallet from "../wallet/Wallet";
 import UpVote from "./upvote/UpVote";
+import { ProposalsResponseItem } from '@taquito/rpc';
 
-function MyBallot({ Tezos, period, proposal }: { Tezos: TezosToolkit, period: string, proposal: string | undefined }) {
+
+function MyBallot({ Tezos, period, proposals }: { Tezos: TezosToolkit, period: string, proposals: ProposalsResponseItem[] }) {
 
     const [userAddress, setUserAddress] = useState<string>("");
     const [wallet, setWallet] = useState<any>();
@@ -21,12 +23,12 @@ function MyBallot({ Tezos, period, proposal }: { Tezos: TezosToolkit, period: st
             setIsBallot(period === Constants.Period.PROMOTION || period === Constants.Period.EXPLORATION);
             setIsUpvote(period === Constants.Period.PROPOSAL);
 
-            console.log(`proposal ${proposal}`);
+            console.log(`proposal ${proposals}`);
             console.log(`isBallot ${isBallot}`);
             console.log(`isUpvote ${isUpvote}`);
 
         })();
-    }, [period, proposal]);
+    }, [period, proposals]);
 
     return (
         <div>
@@ -44,7 +46,7 @@ function MyBallot({ Tezos, period, proposal }: { Tezos: TezosToolkit, period: st
                         userAddress && isBallot &&
                         <div>
                             <hr />
-                            <Ballot Tezos={Tezos} wallet={wallet} userAddress={userAddress} isDelegate={isDelegate} proposal={proposal} />
+                            <Ballot Tezos={Tezos} wallet={wallet} userAddress={userAddress} isDelegate={isDelegate} proposal={(proposals[0]) ? proposals[0][0]: ""} />
                         </div>
                     }
 
@@ -52,7 +54,7 @@ function MyBallot({ Tezos, period, proposal }: { Tezos: TezosToolkit, period: st
                         userAddress && isUpvote &&
                         <div>
                             <hr />
-                            <UpVote Tezos={Tezos} wallet={wallet} userAddress={userAddress} isDelegate={isDelegate} proposal={proposal} />
+                            <UpVote Tezos={Tezos} wallet={wallet} userAddress={userAddress} isDelegate={isDelegate} proposals={proposals} />
                         </div>
                     }
 
