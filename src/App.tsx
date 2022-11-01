@@ -9,6 +9,7 @@ import Sponsors from './components/Sponsors';
 import { localForger } from '@taquito/local-forging'
 import { useState } from 'react';
 import Constants from "./Constants";
+import { ProposalsResponseItem } from '@taquito/rpc';
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
   Tezos.setForgerProvider(localForger);
 
   const [period, setPeriod] = useState<string>(Constants.Period.NONE);
-  const [proposal, setProposal] = useState<string | undefined>();
+  const [proposals, setProposals] = useState<ProposalsResponseItem[]>([]);
 
   return (
     <div>
@@ -24,10 +25,10 @@ function App() {
       <Container className="content">
         <Row>
           <Col>
-            <Proposal Tezos={Tezos} setPeriod={setPeriod} setProposal={setProposal}/>
+            <Proposal Tezos={Tezos} setPeriod={setPeriod} setProposals={setProposals}/>
           </Col>
           <Col>
-            <MyBallot Tezos={Tezos} period={period} proposal={proposal}/>
+            <MyBallot Tezos={Tezos} period={period} proposals={proposals}/>
           </Col>
         </Row>
         <Sponsors />
