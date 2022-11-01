@@ -120,7 +120,7 @@ function UpVoteButton({ Tezos, wallet, userAddress, proposal }: { Tezos: TezosTo
             if (opResult?.status === Constants.APPLIED) {
                 console.log("Operation applied")
                 setStatusType('success');
-                setFeedbackMessage(`Upvote confirmed. <a href="${Config.network.viewerUrl}/${opHash}" target="_blank">Check it.</a>`);
+                setFeedbackMessage(`Upvote confirmed. <a href="${Config.network.viewerUrl}/${opHash}" target="_blank" class="alert-link">Check it.</a>`);
                 window.location.reload();
             }
 
@@ -142,7 +142,10 @@ function UpVoteButton({ Tezos, wallet, userAddress, proposal }: { Tezos: TezosTo
 
         try {
             const opHash = await forgeAndSend();
-            subscribe(opHash);
+            //subscribe(opHash);
+            setStatusType('success');
+            setFeedbackMessage(`Operation sent. <a href="${Config.network.viewerUrl}/${opHash}" target="_blank" class="alert-link">Check it.</a>`);
+            setWaiting(false);
         }
         catch (error: any) {
             console.log(error);
