@@ -1,17 +1,24 @@
 import { TezosToolkit } from "@taquito/taquito";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import ProposalStat from "./ProposalStat";
+import ProposalBallotStat from "./ProposalBallotStat";
 import Constants from "../../Constants";
 import { ProposalsResponseItem } from '@taquito/rpc';
 import BigNumber from 'bignumber.js';
 import React from "react";
+import ProposalUpvoteStat from "./ProposalUpvoteStat";
 
 function Proposal({ Tezos, setPeriod, setProposals }: { Tezos: TezosToolkit, setPeriod: Dispatch<SetStateAction<string>>, setProposals: Dispatch<SetStateAction<ProposalsResponseItem[]>> }) {
 
     const [proposals, setInternalProposals] = useState<ProposalsResponseItem[]>([]);
     const [remaining, setRemaining] = useState<number | string>(0);
     const [periodKind, setPeriodKind] = useState<string>("");
+
+const fakeProposals: ProposalsResponseItem[] = [
+    ["proposal1", new BigNumber(12000000)],
+    ["proposal2", new BigNumber(25000000)],
+    ["proposal3", new BigNumber(69460856603261)]
+]
 
     useEffect(() => {
         (async () => {
@@ -79,16 +86,23 @@ function Proposal({ Tezos, setPeriod, setProposals }: { Tezos: TezosToolkit, set
                     <div className="list-item"><div className="item-name">Remaining:</div><div className="item-value">{remaining}</div></div>
                     <div className="list-item">
                         <div className="item-name">Protocol:</div>
-                        {proposals.map((item: ProposalsResponseItem) => (
-                            <React.Fragment key={undefined}>
+                        {proposals.map((item: ProposalsResponseItem, index) => (
+                            <React.Fragment key={index}>
                                 <div className="item-value">{item[0]}</div>
                             </React.Fragment>
                         ))}
                     </div>
                 </div>
-                <hr/>
+                <hr />
                 <div>
-                    <ProposalStat Tezos={Tezos} />
+                    {
+                        /*periodKind === Constants.Period.PROPOSAL && */
+                        <ProposalUpvoteStat Tezos={Tezos} proposals={fakeProposals}/>
+                    }
+                    {
+                        (periodKind === Constants.Period.EXPLORATION || periodKind === Constants.Period.PROMOTION) && false &&
+                        <ProposalBallotStat Tezos={Tezos} />
+                    }
                 </div>
             </Card.Body>
         </Card>

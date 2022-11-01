@@ -2,7 +2,7 @@ import { TezosToolkit } from "@taquito/taquito";
 import { useEffect, useState } from "react";
 import { ProgressBar } from "react-bootstrap";
 
-function ProposalStat({ Tezos }: { Tezos: TezosToolkit }) {
+function ProposalBallotStat({ Tezos }: { Tezos: TezosToolkit }) {
 
     const [yayPct, setYayPct] = useState<number>(0);
     const [nayPct, setNayPct] = useState<number>(0);
@@ -46,4 +46,4 @@ function ProposalStat({ Tezos }: { Tezos: TezosToolkit }) {
     );
 }
 
-export default ProposalStat;
+export default ProposalBallotStat;
