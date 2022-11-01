@@ -76,16 +76,17 @@ function Proposal({ Tezos, setPeriod, setProposals }: { Tezos: TezosToolkit, set
                 <div>
                     <h4>Proposal</h4>
                     <div className="list-item"><div className="item-name">Period:</div><div className="item-value">{periodKind}</div></div>
+                    <div className="list-item"><div className="item-name">Remaining:</div><div className="item-value">{remaining}</div></div>
                     <div className="list-item">
-                        <div className="item-name">Prococol:</div>
+                        <div className="item-name">Protocol:</div>
                         {proposals.map((item: ProposalsResponseItem) => (
                             <React.Fragment key={undefined}>
                                 <div className="item-value">{item[0]}</div>
                             </React.Fragment>
                         ))}
                     </div>
-                    <div className="list-item"><div className="item-name">Remaining:</div><div className="item-value">{remaining}</div></div>
                 </div>
+                <hr/>
                 <div>
                     <ProposalStat Tezos={Tezos} />
                 </div>
