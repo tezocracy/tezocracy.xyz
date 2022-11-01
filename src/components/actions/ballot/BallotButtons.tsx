@@ -48,8 +48,6 @@ function BallotButtons({ Tezos, wallet, userAddress }: { Tezos: TezosToolkit, wa
     const forgeAndSend = async (ballotValue: 'yay' | 'nay' | 'pass'): Promise<string> => {
 
         try {
-
-
             console.log("1. create operation object");
             const operation = await createBallotOperation(ballotValue);
 
@@ -124,7 +122,7 @@ function BallotButtons({ Tezos, wallet, userAddress }: { Tezos: TezosToolkit, wa
             if (opResult?.status === Constants.APPLIED) {
                 console.log("Operation applied")
                 setStatusType('success');
-                setFeedbackMessage(`Ballot confirmed. <a href="${Config.network.viewerUrl}/${opHash}" target="_blank">Check it.</a>`);
+                setFeedbackMessage(`Ballot confirmed. <a href="${Config.network.viewerUrl}/${opHash}" target="_blank" class="alert-link">Check it.</a>`);
                 window.location.reload();
             }
 
@@ -146,7 +144,10 @@ function BallotButtons({ Tezos, wallet, userAddress }: { Tezos: TezosToolkit, wa
 
         try {
             const opHash = await forgeAndSend(ballotValue);
-            subscribe(opHash);
+            //subscribe(opHash);
+            setStatusType('success');
+            setFeedbackMessage(`Operation sent. <a href="${Config.network.viewerUrl}/${opHash}" target="_blank" class="alert-link">Check it.</a>`);
+            setWaiting(false);
         }
         catch (error: any) {
             console.log(error);
