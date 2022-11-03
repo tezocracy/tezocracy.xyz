@@ -28,7 +28,7 @@ function UpVote({ Tezos, wallet, userAddress, isDelegate, proposals }: { Tezos: 
                 </div>
             }
             {
-                isDelegate && proposals.length == 0 &&
+                isDelegate && proposals.length === 0 &&
                 <div>
                     <Alert variant="danger">
                         No proposals submitted for upvote yet.
