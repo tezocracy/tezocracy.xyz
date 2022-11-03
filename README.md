@@ -6,6 +6,7 @@ Online voting interface for Tezos bakers.
 
 ### Made with
 
+- Node.js 16
 - React
 - Craco
 - Typescript
