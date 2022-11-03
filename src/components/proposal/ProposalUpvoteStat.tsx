@@ -27,9 +27,10 @@ function ProposalUpvoteStat({ Tezos, proposals }: { Tezos: TezosToolkit, proposa
                 {proposals.map((item: ProposalsResponseItem, index: number) => (
                     <React.Fragment key={index}>
                         <div className="list-item">
-                            <span className="item-name">{item[0]}</span>
-                            <span className="item-value">
-                                {( item[1].dividedBy(votingPower).multipliedBy(100).toPrecision(3, BigNumber.ROUND_UP)  ).toString()}%
+                            <span className="item-value">{item[0]}</span>
+                            <span>&nbsp;</span>
+                            <span >
+                               ({( item[1].dividedBy(votingPower).multipliedBy(100).toPrecision(3, BigNumber.ROUND_UP)  ).toString()}%)
                             </span>
                         </div>
                     </React.Fragment>

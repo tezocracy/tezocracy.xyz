@@ -14,12 +14,18 @@ networks.set('ghostnet', {
     viewerUrl: "https://ghostnet.tzkt.io"
 });
 
+networks.set('k', {
+    networkType: NetworkType.KATHMANDUNET,
+    rpcUrl: "https://rpc.kathmandunet.teztnets.xyz/",
+    viewerUrl: "https://kathmandunet.tzkt.io"
+});
+
 let Config = {
     application: {
         name: "Tezocracy.xyz",
         githubRepository: "https://github.com/tezocracy/tezocracy.xyz"
     },
-    network: networks.get('mainnet')
+    network: networks.get('k')
 }
 
 export default Config;

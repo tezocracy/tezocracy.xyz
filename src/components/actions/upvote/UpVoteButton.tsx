@@ -20,7 +20,7 @@ function UpVoteButton({ Tezos, wallet, userAddress, proposals }: { Tezos: TezosT
 
     const createUpvoteOperation = async (): Promise<any> => {
 
-        if (proposals === undefined || proposals.length == 0) {
+        if (proposals === undefined || proposals.length === 0) {
             throw new Error("No proposals submitted yet");
         }
 

@@ -14,12 +14,6 @@ function Proposal({ Tezos, setPeriod, setProposals }: { Tezos: TezosToolkit, set
     const [remaining, setRemaining] = useState<number | string>(0);
     const [periodKind, setPeriodKind] = useState<string>("");
 
-const fakeProposals: ProposalsResponseItem[] = [
-    ["proposal1", new BigNumber(12000000)],
-    ["proposal2", new BigNumber(25000000)],
-    ["proposal3", new BigNumber(69460856603261)]
-]
-
     useEffect(() => {
         (async () => {
 
@@ -84,23 +78,28 @@ const fakeProposals: ProposalsResponseItem[] = [
                     <h4>Proposal</h4>
                     <div className="list-item"><div className="item-name">Period:</div><div className="item-value">{periodKind}</div></div>
                     <div className="list-item"><div className="item-name">Remaining:</div><div className="item-value">{remaining}</div></div>
-                    <div className="list-item">
-                        <div className="item-name">Protocol:</div>
-                        {proposals.map((item: ProposalsResponseItem, index) => (
-                            <React.Fragment key={index}>
-                                <div className="item-value">{item[0]}</div>
-                            </React.Fragment>
-                        ))}
-                    </div>
+
+                    {
+                        (periodKind === Constants.Period.EXPLORATION || periodKind === Constants.Period.PROMOTION) &&
+
+                        <div className="list-item">
+                            <div className="item-name">Protocol:</div>
+                            {proposals.map((item: ProposalsResponseItem, index) => (
+                                <React.Fragment key={index}>
+                                    <div className="item-value">{item[0]}</div>
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    }
                 </div>
                 <hr />
                 <div>
                     {
-                        /*periodKind === Constants.Period.PROPOSAL && */
-                        <ProposalUpvoteStat Tezos={Tezos} proposals={fakeProposals}/>
+                        periodKind === Constants.Period.PROPOSAL && 
+                        <ProposalUpvoteStat Tezos={Tezos} proposals={proposals} />
                     }
                     {
-                        (periodKind === Constants.Period.EXPLORATION || periodKind === Constants.Period.PROMOTION) && false &&
+                        (periodKind === Constants.Period.EXPLORATION || periodKind === Constants.Period.PROMOTION)  &&
                         <ProposalBallotStat Tezos={Tezos} />
                     }
                 </div>
