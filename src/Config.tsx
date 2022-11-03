@@ -25,7 +25,7 @@ let Config = {
         name: "Tezocracy.xyz",
         githubRepository: "https://github.com/tezocracy/tezocracy.xyz"
     },
-    network: networks.get('k')
+    network: networks.get('mainnet')
 }
 
 export default Config;
