@@ -5,15 +5,34 @@ import { Alert } from "react-bootstrap";
 import UpVoteButton from "./UpVoteButton";
 import UpVoteResult from "./UpVoteResult";
 import { ProposalsResponseItem } from '@taquito/rpc';
-
+import axios from 'axios';
+import Config from '../../../Config';
 
 function UpVote({ Tezos, wallet, userAddress, isDelegate, proposals }: { Tezos: TezosToolkit, wallet: BeaconWallet, userAddress: string, isDelegate: boolean, proposals: ProposalsResponseItem[] }) {
 
-    const [hasVoted, setHasVoted] = useState<boolean>(false);
+    const [votedProposals, setVotedProposals] = useState<Set<string>>(new Set<string>());
+    const [notVotedProposals, setNotVotedProposals] = useState<Set<string>>(new Set<string>());
+
+    const filterUpvoted = async (userAddress: string, votes: any[]): Promise<void> => {
+        votes.forEach((item => {
+            const proposalName = item[0];
+            const proposalVotes = item[1];
+            if (proposalVotes.includes(userAddress)) {
+                votedProposals.add(proposalName);
+            }
+            else {
+                notVotedProposals.add(proposalName);
+            }
+        }))
+    }
 
     useEffect(() => {
         (async () => {
-            // TODO what about has voted?
+            axios.get(`${Config.network.rpcUrl}/chains/main/blocks/head/context/raw/json/votes/proposals?depth=1`)
+                .then(async (response) => {
+                    const votes: any[] = response.data;
+                    await filterUpvoted('tz1LVqmufjrmV67vNmZWXRDPMwSCh7mLBnS3', votes);
+                })
         })();
     }, [proposals]);
 
@@ -36,14 +55,13 @@ function UpVote({ Tezos, wallet, userAddress, isDelegate, proposals }: { Tezos: 
                 </div>
             }
             {
-                isDelegate && proposals.length > 0 && !hasVoted &&
-                <UpVoteButton Tezos={Tezos} wallet={wallet} userAddress={userAddress} proposals={proposals} />
+                isDelegate && notVotedProposals.size > 0 &&
+                <UpVoteButton Tezos={Tezos} wallet={wallet} userAddress={userAddress} proposals={Array.from(notVotedProposals)} />
             }
             {
-                isDelegate && proposals.length > 0 && hasVoted &&
-                <UpVoteResult />
+                isDelegate && votedProposals.size > 0 &&
+                <UpVoteResult votedProposals={Array.from(votedProposals)} />
             }
-
         </>
     )
 };

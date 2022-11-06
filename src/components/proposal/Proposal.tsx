@@ -59,6 +59,8 @@ function Proposal({ Tezos, setPeriod, setProposals }: { Tezos: TezosToolkit, set
                                 .catch((error) => { console.error(error); /*setProposalHash("error")*/ });
 
                             break;
+                            case Constants.Period.COOLDOWN:
+                                break;
                         default:
                             console.error(`Unknown period ${kind}`)
                             break;

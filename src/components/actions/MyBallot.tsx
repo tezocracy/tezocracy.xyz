@@ -23,9 +23,10 @@ function MyBallot({ Tezos, period, proposals }: { Tezos: TezosToolkit, period: s
             setIsBallot(period === Constants.Period.PROMOTION || period === Constants.Period.EXPLORATION);
             setIsUpvote(period === Constants.Period.PROPOSAL);
 
-            console.log(`proposal ${proposals}`);
+          /*  console.log(`proposal ${proposals}`);
             console.log(`isBallot ${isBallot}`);
             console.log(`isUpvote ${isUpvote}`);
+            */
 
         })();
     }, [period, proposals]);
@@ -46,14 +47,13 @@ function MyBallot({ Tezos, period, proposals }: { Tezos: TezosToolkit, period: s
                         userAddress && isBallot &&
                         <div>
                             <hr />
-                            <Ballot Tezos={Tezos} wallet={wallet} userAddress={userAddress} isDelegate={isDelegate} proposal={(proposals[0]) ? proposals[0][0]: ""} />
+                            <Ballot Tezos={Tezos} wallet={wallet} userAddress={userAddress} isDelegate={isDelegate} proposal={(proposals[0]) ? proposals[0][0] : ""} />
                         </div>
                     }
 
                     {
                         userAddress && isUpvote &&
                         <div>
-                            <hr />
                             <UpVote Tezos={Tezos} wallet={wallet} userAddress={userAddress} isDelegate={isDelegate} proposals={proposals} />
                         </div>
                     }

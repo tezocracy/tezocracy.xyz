@@ -9,6 +9,7 @@ enum Period {
     PROPOSAL = "proposal",
     EXPLORATION = "exploration",
     TESTING = "testing",
+    COOLDOWN = "cooldown",
     PROMOTION = "promotion",
     ADOPTION = "adoption",
     NONE = "none"

@@ -10,7 +10,7 @@ import { OperationObject, PreapplyResponse, ProposalsResponseItem } from '@taqui
 import Parser from 'html-react-parser';
 import Config from "../../../Config";
 
-function UpVoteButton({ Tezos, wallet, userAddress, proposals }: { Tezos: TezosToolkit, wallet: BeaconWallet, userAddress: string, proposals: ProposalsResponseItem[] }) {
+function UpVoteButton({ Tezos, wallet, userAddress, proposals }: { Tezos: TezosToolkit, wallet: BeaconWallet, userAddress: string, proposals: string[] }) {
 
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [statusType, setStatusType] = useState<'success' | 'danger' | 'primary'>();
@@ -168,14 +168,15 @@ function UpVoteButton({ Tezos, wallet, userAddress, proposals }: { Tezos: TezosT
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, checked } = e.target;
         if (checked) {
-          setSelectedProposals(prev => [...prev, value]);
+            setSelectedProposals(prev => [...prev, value]);
         } else {
-          setSelectedProposals(prev => prev.filter(x => x !== value));
+            setSelectedProposals(prev => prev.filter(x => x !== value));
         }
-      }
+    }
 
     return (
         <>
+            <hr />
             <div className="ballot-buttons">
                 <div className="text-muted ballot-buttons-subtitle">Select proposals you want to upvote and click on the button to send your vote.</div>
 
@@ -184,10 +185,10 @@ function UpVoteButton({ Tezos, wallet, userAddress, proposals }: { Tezos: TezosT
                         <input
                             type="checkbox"
                             name="lang"
-                            value={item[0]}
+                            value={item}
                             onChange={handleChange}
-                        /> {item[0]}
-                        
+                        /> {item}
+
                     </div>)}
                 </div>
                 <div className="ballot-buttons-group">
