@@ -1,111 +1,93 @@
-import { BeaconWallet } from "@taquito/beacon-wallet";
-import { TezosToolkit } from "@taquito/taquito";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Badge, Button, Card } from "react-bootstrap";
-import { PersonFill } from "react-bootstrap-icons";
-import { toBalance } from "../Utils";
-import Config from "../../Config";
+import { useContext, useEffect } from "react";
+import UserInfo from "./UserInfo";
+import DisconnectButton from "./ledger/DisconnectButton";
+import LedgerConnectButton from "./ledger/LedgerConnectButton";
+import { UserContext } from "../../common/context/UserContext";
+import BeaconConnectButton from "./beacon/BeaconConnectButton";
+import NetworkSelector from "./NetworkSelector";
+import { TezosContext } from "../../common/context/TezosContext";
+import { NetworkType } from "@airgap/beacon-sdk";
+import config from "../../Config";
+import Transaction from "../content/business/Transaction";
 
-function Wallet({ Tezos, userAddress, wallet, setWallet, setUserAddress, setDelegate }: { Tezos: TezosToolkit, userAddress: string, wallet: BeaconWallet, setWallet: Dispatch<SetStateAction<BeaconWallet>>, setUserAddress: Dispatch<SetStateAction<string>>, setDelegate: Dispatch<SetStateAction<boolean>> }) {
+function Wallet() {
 
-    const [userBalance, setUserBalance] = useState<number>(0);
-
-    /**
-     * Set user address and balances on wallet connection
-     */
-    const setup = async (pkh: string): Promise<void> => {
-
-        setUserAddress(pkh);
-        const balance = await Tezos.tz.getBalance(pkh);
-        setUserBalance(balance.toNumber());
-
-        try {
-            const delegate = await Tezos.rpc.getDelegates(pkh);
-            const isDelegate: boolean = delegate?.deactivated === false
-            setDelegate(isDelegate);
-        }
-        catch (error) {
-            setDelegate(false);
-        }
-
-    };
-
-    const connectWallet = async (): Promise<void> => {
-
-        try {
-            await wallet.requestPermissions({
-                network: {
-                    type: Config.network.networkType,
-                    rpcUrl: Config.network.rpcUrl
-                }
-            });
-            // gets user's address
-            const userAddress = await wallet.getPKH();
-            await setup(userAddress);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const { userData, setUserData } = useContext(UserContext);
+    const { network } = useContext(TezosContext);
 
     useEffect(() => {
         (async () => {
-            // creates a wallet instance
-            const wallet = new BeaconWallet({
-                name: Config.application.name,
-                preferredNetwork: Config.network.networkType,
-                disableDefaultEvents: false
-            });
-
-            Tezos.setWalletProvider(wallet);
-            setWallet(wallet);
-            // checks if wallet was connected before
-            const activeAccount = await wallet.client.getActiveAccount();
-            if (activeAccount) {
-                const userAddress = await wallet.getPKH();
-                await setup(userAddress);
-            }
-
         })();
-    }, []);
-
-    const disconnectWallet = async (): Promise<void> => {
-        setUserAddress("");
-        setUserBalance(0);
-        const tezosTK = new TezosToolkit(Config.network.rpcUrl);
-        Tezos = tezosTK;
-        if (wallet) {
-            await wallet.clearActiveAccount();
-        }
-        window.location.reload();
-    };
+    }, [network]);
 
     return (
         <div>
-            <h4>My wallet</h4>
-            {(userAddress != null && userAddress !== "") &&
-                <div>
-                    <div>
-                        <Card.Text>
-                            <Badge bg="light" text="dark" className="balance-badge">
-                                <PersonFill /> &nbsp; {userAddress || "Not connected"} &nbsp;
-                                <Badge bg="secondary" as="span" className="balance-badge">{toBalance(userBalance)} ꜩ</Badge>
-                            </Badge>
-                        </Card.Text>
-                        <Card.Text>
-                            <Button variant="outline-danger" onClick={disconnectWallet}>Disconnect</Button>
-                        </Card.Text>
+            <UserContext.Provider value={{ userData, setUserData }}>
+                <div className="columns">
+                    <div className="column">
+                        <div className="card">
+
+                            <div className="card-content">
+                                {
+                                    network.type !== NetworkType.MAINNET &&
+                                    <div className='columns network-name'>
+                                        <div className='column'>
+                                            {network.type}
+                                        </div>
+                                    </div>
+                                }
+                                <h4 className="title is-4">My wallet</h4>
+                                {
+                                    config.networks.length > 1 &&
+                                    <div className='columns'>
+                                        <div className='column'>
+                                            <NetworkSelector />
+                                        </div>
+                                    </div>
+                                }
+
+                                {
+                                    userData &&
+
+                                    <div>
+                                        <div className="block"><UserInfo /></div>
+
+                                        <div className="block"><DisconnectButton /></div>
+
+                                        {
+                                            config.developerMode &&
+                                            <>
+                                                <div>Developer mode</div>
+                                                <Transaction />
+                                            </>
+                                        }
+
+                                    </div>
+                                }
+
+                                {
+                                    !userData &&
+                                    <div>
+                                        <div className="columns">
+                                            <div className="column">
+                                                <LedgerConnectButton />
+                                            </div>
+                                            <div className="column">
+                                                <BeaconConnectButton />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-            }
 
-            {(userAddress == null || userAddress === "") &&
-                <Card.Text>
-                    <Button variant="outline-primary" onClick={connectWallet}>Connect wallet</Button>
-                </Card.Text>
-            }
+
+
+            </UserContext.Provider>
         </div>
-    )
+    );
 }
 
 export default Wallet;

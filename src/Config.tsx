@@ -1,31 +1,24 @@
-import { NetworkType } from "@airgap/beacon-sdk";
+import configData from './config.json';
+import { Config } from './types';
 
-let networks = new Map();
+require('dotenv').config();
 
-networks.set('mainnet', {
-    networkType: NetworkType.MAINNET,
-    rpcUrl: "https://mainnet.tezos.marigold.dev/",
-    viewerUrl: "https://tzkt.io"
-});
+const config: Config = configData;
 
-networks.set('ghostnet', {
-    networkType: NetworkType.GHOSTNET,
-    rpcUrl: "https://rpc.ghostnet.teztnets.xyz/",
-    viewerUrl: "https://ghostnet.tzkt.io"
-});
+// keep only parameter network
 
-networks.set('k', {
-    networkType: NetworkType.KATHMANDUNET,
-    rpcUrl: "https://rpc.kathmandunet.teztnets.xyz/",
-    viewerUrl: "https://kathmandunet.tzkt.io"
-});
-
-let Config = {
-    application: {
-        name: "Tezocracy.xyz",
-        githubRepository: "https://github.com/tezocracy/tezocracy.xyz"
-    },
-    network: networks.get('mainnet')
+switch (process.env.REACT_APP_NETWORK) {
+    case undefined:
+       // console.log("No network defined, use mainnet.");
+        config.networks=Array.of(config.networks.find(network => network.name.toLowerCase() === 'mainnet'));
+        break;
+    case "all":
+        break;
+    default:
+        config.networks = Array.of(config.networks.find(network => network.name.toLowerCase() === process.env.REACT_APP_NETWORK.toLowerCase()));
 }
 
-export default Config;
+if (config.networks.length === 0 || config.networks[0] === undefined)
+    console.error(`Requested network ${process.env.REACT_APP_NETWORK} is not found in configuration.`);
+
+export default config;
