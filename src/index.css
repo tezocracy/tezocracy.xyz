@@ -1,13 +1,126 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+
+div.network-name {
+    background-color: lightcoral;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.navbar .site-logo {
+    margin-right: 20px;
+}
+
+.site-logo img {
+    max-height: 4rem;
+}
+
+div.main-row {
+    background-color: #DEECF9;
+}
+
+div.layout-row {
+    margin-top: 20px;
+}
+
+.ledger-connect-button div.button-block button {
+    background: url('./assets/ledgericon.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    padding-left: 45px;
+}
+
+.beacon-connect-button div.button-block button {
+    background: url('./assets/beaconicon.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    padding-left: 45px;
+}
+
+.connection-method-icon img {
+    width: 15px;
+}
+
+.disconnect-button .disclaimer {
+    margin: 5px;
+    padding: 5px;
+}
+
+.ledger-error {
+    color: rgb(241, 70, 104);
+}
+
+div.logos img {
+    box-shadow: 5px 5px 10px 0px lightgray;
+}
+
+button:hover {
+    box-shadow: 0 0 0 1px lightblue;
+}
+
+div.pie-chart {
+    height: 250px;
+    text-align: center;
+}
+
+div.ballot-result .protocol-hash {
+    text-align: center !important;
+    color: #3e8ed0;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+div.ballot-buttons-subtitle {
+    color: gray;
+    margin: 20px;
+}
+
+div.ballot-buttons-group {
+    margin: 20px;
+    text-align: center;
+}
+
+span.upvote-proposal {
+    font-weight: bold;
+}
+
+span.voted-proposal {
+    color: rgb(72, 199, 142);
+}
+
+div.ballot-buttons-group button {
+    margin: 20px;
+    font-weight: bold;
+}
+
+div.ballot-result {
+    text-align: center;
+    font-size: large;
+}
+
+div.ballot-result span {
+    font-weight: bold;
+}
+
+.footer {
+    padding: 20px;
+}
+
+.footer a {
+    color: black;
 }

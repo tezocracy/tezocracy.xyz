@@ -1,0 +1,36 @@
+{
+    "applicationName": "Tezocracy.xyz",
+    "githubRepositoryUrl": "https://github.com/tezocracy/tezocracy.xyz",
+    "networks": [
+        {
+            "name": "Mainnet",
+            "rpcUrl": "https://mainnet.api.tez.ie",
+            "default": true,
+            "viewerUrl": "https://tzkt.io/{OP_HASH}",
+            "blockTimeInSeconds": 15
+        },
+        {
+            "name": "Ghostnet",
+            "rpcUrl": "https://rpc.ghostnet.teztnets.xyz",
+            "default": false,
+            "viewerUrl": "https://ghostnet.tzkt.io/{OP_HASH}",
+            "blockTimeInSeconds": 10
+        },
+        {
+            "name": "Custom",
+            "rpcUrl": "http://localhost:20000",
+            "default": false,
+            "viewerUrl": "https://tzkt.io/{OP_HASH}",
+            "blockTimeInSeconds": 10
+        },
+        {
+            "name": "Nairobinet",
+            "rpcUrl": "https://nairobinet.ecadinfra.com",
+            "default": false,
+            "viewerUrl": "https://nairobinet.tzkt.io/{OP_HASH}",
+            "blockTimeInSeconds": 15
+        }
+    ],
+    "defaultLedgerDerivationPath": "44'/1729'/0'/0'",
+    "developerMode": false
+}

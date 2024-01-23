@@ -1,40 +1,60 @@
-import './App.css';
-import Header from './components/Header';
-import Proposal from './components/proposal/Proposal';
-import { Col, Container, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import Wallet from './components/wallet/Wallet';
 import { TezosToolkit } from '@taquito/taquito';
-import MyBallot from './components/actions/MyBallot';
-import Config from './Config';
-import Sponsors from './components/Sponsors';
-import { localForger } from '@taquito/local-forging'
-import { useState } from 'react';
-import Constants from "./Constants";
-import { ProposalsResponseItem } from '@taquito/rpc';
+import { UserData } from './types';
+import { TezosContext, VoteContextType } from './common/context/TezosContext';
+import { UserContext } from './common/context/UserContext';
+import { getDefaultNetwork, getNetworkType, getAirgapNetwork } from './common/Utils';
+import { ConnectionContext, ConnectionDataType } from './common/context/ConnectionContext';
+import Content from './components/content/Content';
+import { Network } from '@airgap/beacon-sdk';
+import Navbar from './components/layout/Navbar';
+import Sponsors from './components/layout/Sponsors';
+import TezosService from './common/service/TezosService';
+import { RpcClient, RpcClientCache } from '@taquito/rpc';
+import Footer from './components/layout/Footer';
 
 function App() {
 
-  let Tezos: TezosToolkit = new TezosToolkit(Config.network.rpcUrl);
-  Tezos.setForgerProvider(localForger);
+    const rpcClient: RpcClient = new RpcClient(getDefaultNetwork().rpcUrl)
+    const [Tezos, setTezos] = useState<TezosToolkit>(new TezosToolkit(new RpcClientCache(rpcClient)));
+    const [network, setNetwork] = useState<Network>(getAirgapNetwork(getNetworkType(getDefaultNetwork())));
+    const [userData, setUserData] = useState<UserData | undefined>(undefined);
+    const [connectionData, setConnectionData] = useState<ConnectionDataType>(undefined);
+    const [voteContext, setVoteContext] = useState<VoteContextType>(undefined);
 
-  const [period, setPeriod] = useState<string>(Constants.Period.NONE);
-  const [proposals, setProposals] = useState<ProposalsResponseItem[]>([]);
+    useEffect(() => {
+        (async () => {
+            TezosService.setTezos(Tezos);
+            setVoteContext(await TezosService.getTezosVoteContext());
+        })();
+    }, []);
 
-  return (
-    <div>
-      <Header />
-      <Container className="content">
-        <Row>
-          <Col>
-            <Proposal Tezos={Tezos} setPeriod={setPeriod} setProposals={setProposals}/>
-          </Col>
-          <Col>
-            <MyBallot Tezos={Tezos} period={period} proposals={proposals}/>
-          </Col>
-        </Row>
-        <Sponsors />
-      </Container>
-    </div>
-  );
+
+    return (
+        <TezosContext.Provider value={{ Tezos, setTezos, voteContext, setVoteContext, network, setNetwork }}>
+            <ConnectionContext.Provider value={{ connectionData, setConnectionData }}>
+                <UserContext.Provider value={{ userData, setUserData }}>
+                    <Navbar />
+                    <h6 className='subtitle is-6'>A tool for Tezos Bakers to vote for Governance Proposals, directly from the Browser!</h6>
+                    <div className='columns main-row layout-row'>
+                        <div className='column'>
+                            <div className='block'>
+                                <Wallet />
+                            </div>
+                            <div className='block'>
+                                <Sponsors />
+                            </div>
+                        </div>
+                        <div className="column is-two-thirds">
+                            <Content />
+                        </div>
+                    </div>
+                    <Footer />
+                </UserContext.Provider>
+            </ConnectionContext.Provider>
+        </TezosContext.Provider>
+    );
 }
 
 export default App;
