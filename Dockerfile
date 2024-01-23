@@ -1,4 +1,4 @@
-FROM node:16-alpine as build
+FROM node:20-alpine as build
 
 WORKDIR /app
 
@@ -9,6 +9,7 @@ COPY package-lock.json ./
 COPY src ./src
 COPY public ./public
 COPY tsconfig.json ./tsconfig.json
+COPY config-overrides.js config-overrides.js
 
 RUN npm install --silent
 RUN npm run build
