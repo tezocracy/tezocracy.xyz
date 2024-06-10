@@ -7,7 +7,7 @@
             "rpcUrl": "https://mainnet.api.tez.ie",
             "default": true,
             "viewerUrl": "https://tzkt.io/{OP_HASH}",
-            "blockTimeInSeconds": 15
+            "blockTimeInSeconds": 10
         },
         {
             "name": "Ghostnet",
