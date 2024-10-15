@@ -4,7 +4,7 @@
     "networks": [
         {
             "name": "Mainnet",
-            "rpcUrl": "https://mainnet.api.tez.ie",
+            "rpcUrl": "https://tezosrpc.midl.dev/ak-paggodphtgmjo3/",
             "default": true,
             "viewerUrl": "https://tzkt.io/{OP_HASH}",
             "blockTimeInSeconds": 10
