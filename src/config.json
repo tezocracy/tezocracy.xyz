@@ -7,14 +7,14 @@
             "rpcUrl": "https://tezosrpc.midl.dev/ak-paggodphtgmjo3/",
             "default": true,
             "viewerUrl": "https://tzkt.io/{OP_HASH}",
-            "blockTimeInSeconds": 10
+            "blockTimeInSeconds": 8
         },
         {
             "name": "Ghostnet",
             "rpcUrl": "https://rpc.ghostnet.teztnets.xyz",
             "default": false,
             "viewerUrl": "https://ghostnet.tzkt.io/{OP_HASH}",
-            "blockTimeInSeconds": 10
+            "blockTimeInSeconds": 8
         },
         {
             "name": "Custom",
