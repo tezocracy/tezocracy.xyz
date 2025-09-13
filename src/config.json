@@ -4,7 +4,7 @@
     "networks": [
         {
             "name": "Mainnet",
-            "rpcUrl": "https://tezosrpc.midl.dev/ak-paggodphtgmjo3/",
+            "rpcUrl": "https://rpc.tzkt.io",
             "default": true,
             "viewerUrl": "https://tzkt.io/{OP_HASH}",
             "blockTimeInSeconds": 8
@@ -24,11 +24,11 @@
             "blockTimeInSeconds": 10
         },
         {
-            "name": "Nairobinet",
-            "rpcUrl": "https://nairobinet.ecadinfra.com",
+            "name": "Seoulnet",
+            "rpcUrl": "https://rpc.seoulnet.teztnets.com",
             "default": false,
-            "viewerUrl": "https://nairobinet.tzkt.io/{OP_HASH}",
-            "blockTimeInSeconds": 15
+            "viewerUrl": "https://seoulnet.tzkt.io/{OP_HASH}",
+            "blockTimeInSeconds": 8
         }
     ],
     "defaultLedgerDerivationPath": "44'/1729'/0'/0'",
