@@ -7,21 +7,21 @@
             "rpcUrl": "https://rpc.tzkt.io/mainnet",
             "default": true,
             "viewerUrl": "https://tzkt.io/{OP_HASH}",
-            "blockTimeInSeconds": 8
+            "blockTimeInSeconds": 6
         },
         {
             "name": "Ghostnet",
             "rpcUrl": "https://rpc.ghostnet.teztnets.xyz",
             "default": false,
             "viewerUrl": "https://ghostnet.tzkt.io/{OP_HASH}",
-            "blockTimeInSeconds": 8
+            "blockTimeInSeconds": 6
         },
         {
             "name": "Custom",
             "rpcUrl": "http://localhost:20000",
             "default": false,
             "viewerUrl": "https://tzkt.io/{OP_HASH}",
-            "blockTimeInSeconds": 10
+            "blockTimeInSeconds": 6
         },
         {
             "name": "Seoulnet",
